@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter DATA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e0f7fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h2 {
+            margin-bottom: 50px;
+            color: #00796b;
+        }
+        form {
+            max-width: 600px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #00796b;
+        }
+        input[type="text"], input[type="number"], input[type="hidden"], select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #e0f2f1;
+            color: #00796b;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+        .input-group i {
+            margin-right: 10px;
+            color: #004d40;
+        }
+        button {
+            background-color: #00796b;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enter Data</h2>
+    <form id="csvForm">
+        <div class="input-group">
+            <i class="fas fa-font"></i>
+            <label for="fullname">Full Name:</label>
+        </div>
+        <input type="text" id="fullname" name="fullname" required>
+
+        <div class="input-group">
+            <i class="fas fa-user"></i>
+            <label for="username">Username:</label>
+        </div>
+        <input type="text" id="username" name="username" required>
+
+        <div class="input-group">
+            <i class="fas fa-image"></i>
+            <label for="profilePic">Profile Picture (0 for No, 1 for Yes):</label>
+        </div>
+        <input type="number" id="profilePic" name="profilePic" min="0" max="1" required>
+
+        <div class="input-group">
+            <i class="fas fa-align-left"></i>
+            <label for="descriptionLength">Description Length:</label>
+        </div>
+        <input type="number" id="descriptionLength" name="descriptionLength" min="0" required>
+
+        <div class="input-group">
+            <i class="fas fa-link"></i>
+            <label for="externalURL">External URL Present? (0 for No, 1 for Yes):</label>
+        </div>
+        <input type="number" id="externalURL" name="externalURL" min="0" max="1" required>
+
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <label for="private">Is the Profile Private? (0 for No, 1 for Yes):</label>
+        </div>
+        <input type="number" id="private" name="private" min="0" max="1" required>
+
+        <div class="input-group">
+            <i class="fas fa-camera"></i>
+            <label for="posts"># of Posts:</label>
+        </div>
+        <input type="number" id="posts" name="posts" min="0" required>
+
+        <div class="input-group">
+            <i class="fas fa-users"></i>
+            <label for="followers"># of Followers:</label>
+        </div>
+        <input type="number" id="followers" name="followers" min="0" required>
+
+        <div class="input-group">
+            <i class="fas fa-user-friends"></i>
+            <label for="follows"># of Follows:</label>
+        </div>
+        <input type="number" id="follows" name="follows" min="0" required>
+
+        <div class="input-group">
+            <i class="fas fa-percentage"></i>
+            <label for="numsLengthUsername">Numeric Characters Ratio in Username:</label>
+        </div>
+        <input type="text" id="numsLengthUsername" name="numsLengthUsername" readonly>
+
+        <div class="input-group">
+            <i class="fas fa-percentage"></i>
+            <label for="numsLengthFullname">Numeric Characters Ratio in Full Name:</label>
+        </div>
+        <input type="text" id="numsLengthFullname" name="numsLengthFullname" readonly>
+
+        <div class="input-group">
+            <i class="fas fa-font"></i>
+            <label for="fullnameWords">Number of Words in Full Name:</label>
+        </div>
+        <input type="text" id="fullnameWords" name="fullnameWords" readonly>
+
+        <div class="input-group">
+            <i class="fas fa-equals"></i>
+            <label for="nameEqualsUsername">Does Full Name Equal Username? (0 for No, 1 for Yes):</label>
+        </div>
+        <input type="text" id="nameEqualsUsername" name="nameEqualsUsername" readonly>
+
+        <div class="input-group">
+            <i class="fas fa-exclamation-circle"></i>
+            <label for="fake">Is the Profile Fake? (0 for No, 1 for Yes):</label>
+        </div>
+        <input type="number" id="fake" name="fake" min="0" max="1" required>
+
+        <button type="submit">Create CSV</button>
+    </form>
+
+    <script>
+        document.getElementById('csvForm').addEventListener('input', function() {
+            const fullname = document.getElementById('fullname').value;
+            const username = document.getElementById('username').value;
+
+            const numsLengthUsername = username.replace(/[^0-9]/g, '').length / username.length || 0;
+            const fullnameWords = fullname.trim().split(/\s+/).length || 0;
+            const numsLengthFullname = fullname.replace(/[^0-9]/g, '').length / fullname.length || 0;
+            const nameEqualsUsername = fullname.toLowerCase() === username.toLowerCase() ? 1 : 0;
+
+            document.getElementById('numsLengthUsername').value = numsLengthUsername.toFixed(2);
+            document.getElementById('fullnameWords').value = fullnameWords;
+            document.getElementById('numsLengthFullname').value = numsLengthFullname.toFixed(2);
+            document.getElementById('nameEqualsUsername').value = nameEqualsUsername;
+        });
+
+        document.getElementById('csvForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const data = new FormData(form);
+            const jsonData = {};
+            data.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            // Include derived values in the jsonData
+            jsonData.numsLengthUsername = parseFloat(document.getElementById('numsLengthUsername').value);
+            jsonData.fullnameWords = parseInt(document.getElementById('fullnameWords').value, 10);
+            jsonData.numsLengthFullname = parseFloat(document.getElementById('numsLengthFullname').value);
+            jsonData.nameEqualsUsername = parseInt(document.getElementById('nameEqualsUsername').value, 10);
+            jsonData.isFake = parseInt(document.getElementById('fake').value, 10);
+
+            fetch('/create_csv', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `<p>${data.message}</p>`;
+                resultDiv.style.display = 'block';
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+
+    <div id="result" class="result" style="display: none;"></div>
+</body>
+</html>
